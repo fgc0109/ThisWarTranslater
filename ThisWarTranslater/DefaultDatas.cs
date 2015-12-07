@@ -23,6 +23,12 @@ namespace ThisWarTranslater
             mainForm.hashList.Items.Add(defaultdata);
 
             defaultdata = new ListViewItem();
+            defaultdata.Text = "3CA400B5";
+            defaultdata.SubItems.Add("韩语");
+            defaultdata.SubItems.Add("丢失");
+            mainForm.hashList.Items.Add(defaultdata);
+
+            defaultdata = new ListViewItem();
             defaultdata.Text = "AA9C54E9";
             defaultdata.SubItems.Add("日语");
             defaultdata.SubItems.Add("丢失");
@@ -43,7 +49,7 @@ namespace ThisWarTranslater
             mainForm.textDataAddress.Text = "localhost";
             mainForm.textDataPort.Text = "3306";
             mainForm.textDataName.Text = "root";
-            mainForm.textDataPass.Text = "fgc195874";
+            mainForm.textDataPass.Text = "123456";
             mainForm.textDataBase.Text = "thiswar";
             mainForm.textDataTable.Text = "translate";
         }
