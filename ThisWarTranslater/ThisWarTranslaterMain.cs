@@ -27,21 +27,21 @@ namespace ThisWarTranslater
 
         private void buttonFileHandle_Click(object sender, EventArgs e)
         {
-            HandleFiles.FileLoad(this);
-            HandleFiles.DataUnpacking(this);
-            HandleFiles.DataUncompress(this);
+            FilesDecoding.FileLoad(this);
+            FilesDecoding.DataUnpacking(this);
+            FilesDecoding.DataUncompress(this);
 
-            HandleFiles.InfoPrint(this);
+            FilesDecoding.InfoPrint(this);
             HandleLanguage.dataRefreshing(this);
         }
 
         private void buttonFolderHandle_Click(object sender, EventArgs e)
         {
-            HandleFiles.FolderLoad(this);
+            FilesCoding.FolderLoad(this);
 
-            HandleFiles.DataPacking(this);
+            FilesCoding.DataPacking(this);
 
-            HandleFiles.InfoPrint(this);
+            //HandleFiles.InfoPrint(this);
         }
 
         private void buttonRefreshing_Click(object sender, EventArgs e)
@@ -94,7 +94,7 @@ namespace ThisWarTranslater
 
         private void buttonExportFolder_Click(object sender, EventArgs e)
         {
-            string debugStr = HandleFiles.exportFolder(this);
+            string debugStr = FilesDecoding.exportFolder(this);
             textDebug.Text = textDebug.Text + "\r\n[信息]" + debugStr;
         }
     }

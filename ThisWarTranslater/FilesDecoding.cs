@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace ThisWarTranslater
 {
-    class HandleFiles
+    class FilesDecoding
     {
         public static MemoryStream m_idxStream = null;
         public static MemoryStream m_datStream = null;
@@ -34,6 +34,22 @@ namespace ThisWarTranslater
         public static List<byte[]> m_idxAfters = new List<byte[]>();
         public static List<byte[]> m_idxDeviat = new List<byte[]>();
         public static List<byte[]> m_idxEnding = new List<byte[]>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="intData"></param>
+        /// <param name="countData"></param>
+        /// <returns></returns>
+        public static byte[] StringConverter(int intData, int countData)
+        {
+            byte[] resultByte = new byte[countData];
+            for (int i = 0; i < countData; i++)
+            {
+                resultByte[i] = (byte)((intData >> (8 * i)) & 0xFF);
+            }
+            return resultByte;
+        }
 
         public static void FileLoad(ThisWarTranslaterMain mainForm)
         {
@@ -78,10 +94,9 @@ namespace ThisWarTranslater
                     byte[] fileData = File.ReadAllBytes(mainForm.filePath.Text + uzipFileInfo[i].Name);
                     m_uzipStream[i] = new MemoryStream(fileData);
 
-                    m_lengthHash[i] = int.Parse(uzipFileInfo[i].Name);
+                    //m_lengthHash[i] = int.Parse(uzipFileInfo[i].Name);
                     m_lengthAfters[i] = (int)uzipFileInfo[i].Length;
                 }
-
             }
             catch (Exception e)
             {
@@ -151,7 +166,35 @@ namespace ThisWarTranslater
 
         public static void DataPacking(ThisWarTranslaterMain mainForm)
         {
+            m_idxStream = new MemoryStream(17 * m_fileCount + 11);
 
+
+            m_idxHeader = new byte[] { 0x00, 0x06, 0x01 };
+            m_idxCounts = StringConverter(m_fileCount, 4);
+            m_idxUnknow = new byte[] { 0x00, 0x00, 0x00, 0x00, };
+
+            string path = Application.StartupPath + @"\_PackagedFiles\";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            FileStream idxOutputFile = new FileStream(path + "localizationsidx", FileMode.Create);
+            FileStream datOutputFile = new FileStream(path + "localizations.dat", FileMode.Create);
+
+            idxOutputFile.Write(m_idxHeader, 0, 3);
+            idxOutputFile.Write(m_idxCounts, 0, 4);
+            idxOutputFile.Write(m_idxUnknow, 0, 4);
+
+            for (int i = 0; i < m_fileCount; i++)
+            {
+
+            }
+
+
+
+
+            idxOutputFile.Close();
         }
 
         /// <summary>

@@ -51,8 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultDatas.cs" />
+    <Compile Include="FilesCoding.cs" />
     <Compile Include="HandleDatabase.cs" />
-    <Compile Include="HandleFiles.cs" />
+    <Compile Include="FilesDecoding.cs" />
     <Compile Include="HandleLanguage.cs" />
     <Compile Include="ThisWarTranslaterMain.cs">
       <SubType>Form</SubType>

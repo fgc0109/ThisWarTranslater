@@ -69,9 +69,9 @@ namespace ThisWarTranslater
         /// <param name="mainForm"></param>
         public static void dataRefreshing(ThisWarTranslaterMain mainForm)
         {
-            m_uzipStream = HandleFiles.m_uzipStream;
-            m_lengthHash = HandleFiles.m_lengthHash;
-            m_fileCount = HandleFiles.m_fileCount;
+            m_uzipStream = FilesDecoding.m_uzipStream;
+            m_lengthHash = FilesDecoding.m_lengthHash;
+            m_fileCount = FilesDecoding.m_fileCount;
 
             for (int i = 0; i < m_fileCount; i++)
             {
