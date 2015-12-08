@@ -72,5 +72,20 @@ namespace ThisWarTranslater
         {
             HandleLanguage.dataLanguageTable(this);
         }
+
+        private void buttonChooseFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "IDX - File(*.idx) | *.idx| 所有文件(*.*) | *.*";
+            openFile.ShowDialog();
+            filePath.Text = openFile.FileName.Replace(".idx", "");
+        }
+
+        private void buttonChooseFolder_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog openFolder = new FolderBrowserDialog();
+            openFolder.ShowDialog();
+            filePath.Text = openFolder.SelectedPath;
+        }
     }
 }

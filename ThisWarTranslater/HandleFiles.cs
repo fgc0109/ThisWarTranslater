@@ -145,6 +145,10 @@ namespace ThisWarTranslater
 
             BinaryReader[] zipReader = new BinaryReader[m_fileCount];
 
+            mainForm.progressBar.Minimum = 0;
+            mainForm.progressBar.Maximum = m_fileCount;
+
+            mainForm.progressBar.Value = 0;
             for (int i = 0; i < m_fileCount; i++)
             {
                 byte[] datHash = m_idxHash[i];
@@ -164,7 +168,11 @@ namespace ThisWarTranslater
 
                 m_uzipStream[i] = new MemoryStream();
                 m_defStream[i].CopyTo(m_uzipStream[i]);
+
+                mainForm.progressBar.Value = i;
             }
+
+            mainForm.progressBar.Value = 0;
         }
 
         /// <summary>
