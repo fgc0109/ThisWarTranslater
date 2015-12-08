@@ -15,6 +15,8 @@ namespace ThisWarTranslater
     class HandleLanguage
     {
         public static int m_fileCount = 0;
+        public static int m_fileIndex = 0;
+        public static string m_fileField = "";
         public static DataSet m_mainDataSet = null;
 
         public static MemoryStream[] m_uzipStream = null;
@@ -40,12 +42,15 @@ namespace ThisWarTranslater
         public static List<string> m_databaseNoun = new List<string>();
 
         /// <summary>
-        /// 准备数据库数据
+        /// 准备数据库数据，为类成员变量提供以下数据
+        ///     数据表集  提供数据库数据表集合
+        ///     泛型集合  提供名词编号及对应名词的两个泛型集合
         /// </summary>
         /// <param name="mainForm"></param>
+        /// <returns>查询到的记录数量</returns>
         public static string dataPreparation(ThisWarTranslaterMain mainForm)
         {
-            m_mainDataSet = HandleDatabase.LoadDatabase("select * from translatetable;");
+            m_mainDataSet = HandleDatabase.LoadDatabase(string.Format("select * from {0};", mainForm.textDataTable.Text));
             m_databaseColumn = m_mainDataSet.Tables[0].Columns.Count;
             m_databaseRows= m_mainDataSet.Tables[0].Rows.Count;
 
@@ -59,12 +64,59 @@ namespace ThisWarTranslater
         }
 
         /// <summary>
-        /// 解析名词表并载入数据库
+        /// 获取HandleFiles类中得到的文件数据，更新列表状态
         /// </summary>
         /// <param name="mainForm"></param>
-        public static void dataNounTable(ThisWarTranslaterMain mainForm)
+        public static void dataRefreshing(ThisWarTranslaterMain mainForm)
         {
-            /////////////////////需要添加判断
+            m_uzipStream = HandleFiles.m_uzipStream;
+            m_lengthHash = HandleFiles.m_lengthHash;
+            m_fileCount = HandleFiles.m_fileCount;
+
+            for (int i = 0; i < m_fileCount; i++)
+            {
+                ListViewItem foundItem = mainForm.hashList.FindItemWithText(m_lengthHash[i].ToString("X8"), true, 0);
+
+                if (foundItem != null)
+                {
+                    mainForm.hashList.TopItem = foundItem;
+                    foundItem.SubItems[2].Text = "已加载";
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新列表状态，为类成员变量提供以下数据
+        ///     整型     当前选择的文件内存流编号
+        ///     字符串   当前选择的文件在数据库中的字段名
+        /// </summary>
+        /// <param name="mainForm"></param>
+        public static void dataEffective(ThisWarTranslaterMain mainForm)
+        {
+            if (mainForm.hashList.FocusedItem.SubItems[2].Text == "已加载")
+            {
+                mainForm.buttonUpdateData.Enabled = true;
+            }
+            else
+            {
+                mainForm.buttonUpdateData.Enabled = false;
+            }
+
+            m_fileIndex = int.Parse(mainForm.hashList.FocusedItem.SubItems[3].Text);
+            m_fileField = mainForm.hashList.FocusedItem.SubItems[4].Text;
+        }
+
+        /// <summary>
+        /// 解析名词表文件，为类成员变量提供以下数据
+        ///     [4字节]   指针位置0开始，存储名词表文件长度
+        ///     [4字节]   指针位置4开始，词条编号长度信息存储区偏移值
+        ///     [4字节]   指针位置<偏移值>开始，存储词条数量信息
+        ///     泛型集合  提供名词编号及对应名词的两个泛型集合
+        /// </summary>
+        /// <param name="memStreamIndex">需要分析的内存流编号</param>
+        /// <returns>内存流当前位置</returns>
+        public static long dataNounAnalysis(int memStreamIndex)
+        {
             m_nounStream = m_uzipStream[0];
             BinaryReader nounReader = new BinaryReader(m_nounStream);
 
@@ -96,8 +148,14 @@ namespace ThisWarTranslater
                 nounNouns = nounReader.ReadBytes(4);
                 m_nounNouns.Add((nounNouns[0]) + (nounNouns[1] << 8) + (nounNouns[2] << 16) + (nounNouns[3] << 24));
             }
+            return m_nounStream.Position + 2;
+        }
 
-            long tempPosition = m_nounStream.Position + 2;
+
+        public static void dataNounTable(ThisWarTranslaterMain mainForm)
+        {
+            long tempPosition = dataNounAnalysis(0);
+            BinaryReader nounReader = new BinaryReader(m_nounStream);
 
             mainForm.progressBar.Minimum = 0;
             mainForm.progressBar.Maximum = m_countsNoun * 2;
@@ -165,13 +223,15 @@ namespace ThisWarTranslater
         }
 
         /// <summary>
-        /// 解析语言文件并载入数据库
-        /// </summary>
-        /// <param name="mainForm"></param>
-        public static void dataLanguageTable(ThisWarTranslaterMain mainForm)
+        /// 解析语言文件，为类成员变量提供以下数据
+        ///     [4字节]   指针位置0开始，存储语言文件长度
+        ///     [4字节]   指针位置4开始，存储词条数量信息
+        /// <summary>
+        /// <param name="memStreamIndex">需要分析的内存流编号</param>
+        /// <returns>内存流当前位置</returns>
+        public static long dataLanguageAnalysis(int memStreamIndex)
         {
-            /////////////////////需要添加判断
-            m_languageStream = m_uzipStream[11];
+            m_languageStream = m_uzipStream[memStreamIndex];
             BinaryReader languageReader = new BinaryReader(m_languageStream);
 
             m_languageStream.Seek(0, SeekOrigin.Begin);
@@ -184,6 +244,20 @@ namespace ThisWarTranslater
 
             languageCounts = languageReader.ReadBytes(4);
             m_countsLanguage = (languageCounts[0]) + (languageCounts[1] << 8) + (languageCounts[2] << 16) + (languageCounts[3] << 24);
+
+            return m_languageStream.Position;
+        }
+
+
+        public static void dataLanguageTable(ThisWarTranslaterMain mainForm)
+        {
+            long tempPosition = dataLanguageAnalysis(m_fileIndex);
+            BinaryReader languageReader = new BinaryReader(m_languageStream);
+
+            string strUpdate = "";
+            strUpdate = string.Format("ALTER TABLE {0} ADD COLUMN {1} text;",
+                mainForm.textDataTable.Text, m_fileField);
+            HandleDatabase.SaveDatabase(strUpdate);
 
             mainForm.progressBar.Minimum = 0;
             mainForm.progressBar.Maximum = m_countsLanguage;
@@ -209,7 +283,7 @@ namespace ThisWarTranslater
                 for (int j = 0; j < lengthStrA; j++)
                 {
                     tempSign = languageReader.ReadByte();
-                    strTemp = strTemp + (char)tempSign;   
+                    strTemp = strTemp + (char)tempSign;
                 }
 
                 for (int j = 0; j < m_databaseRows; j++)
@@ -218,7 +292,7 @@ namespace ThisWarTranslater
                     {
                         indexLanguage = j;
                         break;
-                    }   
+                    }
                 }
 
                 lengthB = languageReader.ReadBytes(2);
@@ -228,44 +302,14 @@ namespace ThisWarTranslater
                 strLanguage = new string(Encoding.Unicode.GetChars(languageUnicode));
                 strLanguage = strLanguage.Replace("'", "''");
 
-                string strUpdate = string.Format("UPDATE {0} SET lang_jap='{1}' WHERE id='{2}';", mainForm.textDataTable.Text, strLanguage, indexLanguage);
+                strUpdate = string.Format("UPDATE {0} SET {1}='{2}' WHERE id='{3}';",
+                    mainForm.textDataTable.Text, m_fileField, strLanguage, indexLanguage);
                 HandleDatabase.SaveDatabase(strUpdate);
-                
+
                 mainForm.progressBar.Value = i;
             }
 
             mainForm.progressBar.Value = 0;
-        }
-
-        public static void dataRefreshing(ThisWarTranslaterMain mainForm)
-        {
-            m_uzipStream = HandleFiles.m_uzipStream;
-            m_lengthHash = HandleFiles.m_lengthHash;
-            m_fileCount = HandleFiles.m_fileCount;
-
-            for (int i = 0; i < m_fileCount; i++)
-            {
-                ListViewItem foundItem = mainForm.hashList.FindItemWithText(m_lengthHash[i].ToString("X8"), true, 0);
-
-                if (foundItem != null)
-                {
-                    mainForm.hashList.TopItem = foundItem;
-                    foundItem.SubItems[2].Text = "已加载";
-                }
-            }
-        }
-
-        public static void dataEffective(ThisWarTranslaterMain mainForm)
-        {
-
-            if (mainForm.hashList.FocusedItem.SubItems[2].Text == "已加载")
-            {
-                mainForm.buttonUpdateData.Enabled = true;
-            }
-            else
-            {
-                mainForm.buttonUpdateData.Enabled = false;
-            }
         }
     }
 }

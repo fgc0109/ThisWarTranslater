@@ -69,6 +69,8 @@
             this.filePath = new System.Windows.Forms.TextBox();
             this.textDebug = new System.Windows.Forms.TextBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.headerIndex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.headerField = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -271,7 +273,9 @@
             this.hashList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.headerHash,
             this.headerName,
-            this.headerState});
+            this.headerState,
+            this.headerIndex,
+            this.headerField});
             this.hashList.Location = new System.Drawing.Point(6, 20);
             this.hashList.Name = "hashList";
             this.hashList.Size = new System.Drawing.Size(258, 110);
@@ -452,6 +456,15 @@
             this.progressBar.Size = new System.Drawing.Size(350, 23);
             this.progressBar.TabIndex = 6;
             // 
+            // headerIndex
+            // 
+            this.headerIndex.Text = "存储序号";
+            this.headerIndex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // headerField
+            // 
+            this.headerField.Text = "数据库字段";
+            // 
             // ThisWarTranslaterMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -462,6 +475,7 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ThisWarTranslaterMain";
             this.Text = "ThisWarTranslater";
             this.Load += new System.EventHandler(this.ThisWarTranslaterMain_Load);
@@ -518,6 +532,8 @@
         public System.Windows.Forms.TextBox textDataTable;
         public System.Windows.Forms.TextBox textDataBase;
         public System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.ColumnHeader headerIndex;
+        private System.Windows.Forms.ColumnHeader headerField;
     }
 }
 

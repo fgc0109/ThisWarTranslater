@@ -70,10 +70,18 @@ public class HandleDatabase
     /// 将内存数据保存至数据库
     /// </summary>
     /// <param name="update_string">数据库命令字符串</param>
-    static public void SaveDatabase(string update_string)
+    static public bool SaveDatabase(string update_string)
     {
         MySqlCommand m_command = dbConnection.CreateCommand();
         m_command.CommandText = update_string;
-        m_command.ExecuteNonQuery();
+        try
+        {
+            m_command.ExecuteNonQuery();
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
     }
 }

@@ -21,7 +21,8 @@ namespace ThisWarTranslater
         {
             DefaultDatas.DefaultHash(this);
             DefaultDatas.DefaultConnectInfo(this);
-            filePath.Text = Application.StartupPath + @"\_UncompressFiles\";
+            filePath.Text = Application.StartupPath + @"\localizations";
+            //filePath.Text = Application.StartupPath + @"\_UncompressFiles\";
         }
 
         private void buttonFileHandle_Click(object sender, EventArgs e)
@@ -55,7 +56,10 @@ namespace ThisWarTranslater
 
         private void buttonUpdateData_Click(object sender, EventArgs e)
         {
-            HandleLanguage.dataNounTable(this);
+            if (hashList.FocusedItem.Text == "0975B714")
+                HandleLanguage.dataNounTable(this);
+            else
+                HandleLanguage.dataLanguageTable(this);
             textDebug.Text = textDebug.Text + "\r\n[信息]数据库更新完成!";
         }
 
