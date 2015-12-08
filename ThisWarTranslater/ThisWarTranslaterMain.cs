@@ -21,8 +21,8 @@ namespace ThisWarTranslater
         {
             DefaultDatas.DefaultHash(this);
             DefaultDatas.DefaultConnectInfo(this);
-            filePath.Text = Application.StartupPath + @"\localizations";
-            //filePath.Text = Application.StartupPath + @"\_UncompressFiles\";
+            //filePath.Text = Application.StartupPath + @"\localizations";
+            filePath.Text = Application.StartupPath + @"\_UncompressFiles\";
         }
 
         private void buttonFileHandle_Click(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace ThisWarTranslater
         private void buttonFolderHandle_Click(object sender, EventArgs e)
         {
             FilesCoding.FolderLoad(this);
-
+            FilesCoding.DataCompress(this);
             FilesCoding.DataPacking(this);
 
             //HandleFiles.InfoPrint(this);
