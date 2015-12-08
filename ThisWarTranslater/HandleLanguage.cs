@@ -6,12 +6,16 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Data;
+using MySql.Data.MySqlClient;
+using MySql.Data;
 
 namespace ThisWarTranslater
 {
     class HandleLanguage
     {
         public static int m_fileCount = 0;
+        public static DataSet m_mainDataSet = null;
 
         public static MemoryStream[] m_uzipStream = null;
 
@@ -30,12 +34,37 @@ namespace ThisWarTranslater
 
         public static int[] m_lengthHash = null;
 
+        public static int m_databaseColumn = 0;
+        public static int m_databaseRows = 0;
+        public static List<int> m_databaseID = new List<int>();
+        public static List<string> m_databaseNoun = new List<string>();
+
+        /// <summary>
+        /// 准备数据库数据
+        /// </summary>
+        /// <param name="mainForm"></param>
+        public static string dataPreparation(ThisWarTranslaterMain mainForm)
+        {
+            m_mainDataSet = HandleDatabase.LoadDatabase("select * from translatetable;");
+            m_databaseColumn = m_mainDataSet.Tables[0].Columns.Count;
+            m_databaseRows= m_mainDataSet.Tables[0].Rows.Count;
+
+            for (int i = 0; i < m_mainDataSet.Tables[0].Rows.Count; i++)
+            {
+                m_databaseID.Add(int.Parse(m_mainDataSet.Tables[0].Rows[i]["id"].ToString()));
+                m_databaseNoun.Add(m_mainDataSet.Tables[0].Rows[i]["noun"].ToString().Replace("\0", ""));
+            }
+
+            return "查询到的记录数量" + m_mainDataSet.Tables[0].Rows.Count.ToString();
+        }
+
         /// <summary>
         /// 解析名词表并载入数据库
         /// </summary>
         /// <param name="mainForm"></param>
         public static void dataNounTable(ThisWarTranslaterMain mainForm)
         {
+            /////////////////////需要添加判断
             m_nounStream = m_uzipStream[0];
             BinaryReader nounReader = new BinaryReader(m_nounStream);
 
@@ -79,17 +108,28 @@ namespace ThisWarTranslater
             for (int i = 0; i < m_countsNoun; i++)
             {
                 m_nounStream.Seek(m_nounNouns[i] + 8, SeekOrigin.Begin);
+
                 byte tempNoun = 0;
                 string strNoun = "";
+                string strUpdate = "";
+                string strTemp = "";
+
                 do
                 {
                     tempNoun = nounReader.ReadByte();
                     strNoun = strNoun + (char)tempNoun;
-
                 } while (tempNoun != 0);
 
-                string strUpdate = string.Format("UPDATE {0} SET noun='{1}' WHERE id='{2}';", mainForm.textDataTable.Text, strNoun, m_nounIndex[i]);
-                //string strUpdate = string.Format("INSERT INTO {0} VALUES ({1},'{2}');", mainForm.textDataTable.Text, m_nounIndex[i], strNoun);
+                for (int j = 2; j < m_databaseColumn; j++)
+                {
+                    strTemp = strTemp + @",''";
+                }
+
+                if (m_databaseID.Contains(m_nounIndex[i]))
+                    strUpdate = string.Format("UPDATE {0} SET noun='{1}' WHERE id='{2}';", mainForm.textDataTable.Text, strNoun, m_nounIndex[i]);
+                else
+                    strUpdate = string.Format("INSERT INTO {0} VALUES ({1},'{2}'{3});", mainForm.textDataTable.Text, m_nounIndex[i], strNoun, strTemp);
+
                 HandleDatabase.SaveDatabase(strUpdate);
 
                 mainForm.progressBar.Value = i;
@@ -130,6 +170,7 @@ namespace ThisWarTranslater
         /// <param name="mainForm"></param>
         public static void dataLanguageTable(ThisWarTranslaterMain mainForm)
         {
+            /////////////////////需要添加判断
             m_languageStream = m_uzipStream[11];
             BinaryReader languageReader = new BinaryReader(m_languageStream);
 
@@ -158,7 +199,9 @@ namespace ThisWarTranslater
             for (int i = 0; i < m_countsLanguage; i++)
             {
                 byte tempSign = 0;
+                int indexLanguage = m_databaseRows;
                 string strLanguage = "";
+                string strTemp = "";
 
                 lengthA = languageReader.ReadBytes(2);
                 lengthStrA = (lengthA[0]) + (lengthA[1] << 8);
@@ -166,7 +209,16 @@ namespace ThisWarTranslater
                 for (int j = 0; j < lengthStrA; j++)
                 {
                     tempSign = languageReader.ReadByte();
-                    //strLanguage = strLanguage + (char)tempSign;   
+                    strTemp = strTemp + (char)tempSign;   
+                }
+
+                for (int j = 0; j < m_databaseRows; j++)
+                {
+                    if (m_databaseNoun[j] == strTemp)
+                    {
+                        indexLanguage = j;
+                        break;
+                    }   
                 }
 
                 lengthB = languageReader.ReadBytes(2);
@@ -176,7 +228,7 @@ namespace ThisWarTranslater
                 strLanguage = new string(Encoding.Unicode.GetChars(languageUnicode));
                 strLanguage = strLanguage.Replace("'", "''");
 
-                string strUpdate = string.Format("UPDATE {0} SET lang_jap='{1}' WHERE id='{2}';", mainForm.textDataTable.Text, strLanguage, i);
+                string strUpdate = string.Format("UPDATE {0} SET lang_jap='{1}' WHERE id='{2}';", mainForm.textDataTable.Text, strLanguage, indexLanguage);
                 HandleDatabase.SaveDatabase(strUpdate);
                 
                 mainForm.progressBar.Value = i;

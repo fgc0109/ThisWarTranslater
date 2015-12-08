@@ -39,7 +39,7 @@ public class HandleDatabase
     /// <returns>数据源缓存DataSet</returns>
     static public DataSet LoadDatabase()
     {
-        string strSelect = "select * from skilldata_npc";
+        string strSelect = "select * from skilldata_npc;";
 
         DataSet local_dataset = new DataSet();
         MySqlDataAdapter local_adapter = new MySqlDataAdapter(strSelect, dbConnection);

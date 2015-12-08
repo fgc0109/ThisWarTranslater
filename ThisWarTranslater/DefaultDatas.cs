@@ -51,7 +51,7 @@ namespace ThisWarTranslater
             mainForm.textDataName.Text = "root";
             mainForm.textDataPass.Text = "123456";
             mainForm.textDataBase.Text = "thiswar";
-            mainForm.textDataTable.Text = "translate";
+            mainForm.textDataTable.Text = "translatetable";
         }
     }
 }

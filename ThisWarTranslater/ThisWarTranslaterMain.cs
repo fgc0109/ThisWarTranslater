@@ -63,6 +63,9 @@ namespace ThisWarTranslater
         {
             string connectStr = HandleDatabase.OpenDatabase(textDataAddress.Text, textDataPort.Text, textDataName.Text, textDataPass.Text, textDataBase.Text);
             textDebug.Text = textDebug.Text + "\r\n[信息]" + connectStr;
+
+            string debugStr = HandleLanguage.dataPreparation(this);
+            textDebug.Text = textDebug.Text + "\r\n[信息]" + debugStr;
         }
 
         private void buttonTemp_Click(object sender, EventArgs e)
