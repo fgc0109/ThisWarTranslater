@@ -55,11 +55,11 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button7 = new System.Windows.Forms.Button();
             this.buttonTemp = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.buttonExportFile = new System.Windows.Forms.Button();
             this.buttonFolderHandle = new System.Windows.Forms.Button();
             this.buttonChooseFolder = new System.Windows.Forms.Button();
             this.buttonChooseFile = new System.Windows.Forms.Button();
-            this.buttonExportFile = new System.Windows.Forms.Button();
+            this.buttonExportFolder = new System.Windows.Forms.Button();
             this.buttonFileHandle = new System.Windows.Forms.Button();
             this.infoList = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -300,11 +300,11 @@
             // 
             this.groupBox3.Controls.Add(this.button7);
             this.groupBox3.Controls.Add(this.buttonTemp);
-            this.groupBox3.Controls.Add(this.button5);
+            this.groupBox3.Controls.Add(this.buttonExportFile);
             this.groupBox3.Controls.Add(this.buttonFolderHandle);
             this.groupBox3.Controls.Add(this.buttonChooseFolder);
             this.groupBox3.Controls.Add(this.buttonChooseFile);
-            this.groupBox3.Controls.Add(this.buttonExportFile);
+            this.groupBox3.Controls.Add(this.buttonExportFolder);
             this.groupBox3.Controls.Add(this.buttonFileHandle);
             this.groupBox3.Controls.Add(this.infoList);
             this.groupBox3.Controls.Add(this.filePath);
@@ -334,14 +334,14 @@
             this.buttonTemp.UseVisualStyleBackColor = true;
             this.buttonTemp.Click += new System.EventHandler(this.buttonTemp_Click);
             // 
-            // button5
+            // buttonExportFile
             // 
-            this.button5.Location = new System.Drawing.Point(168, 98);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 9;
-            this.button5.Text = "输出打包";
-            this.button5.UseVisualStyleBackColor = true;
+            this.buttonExportFile.Location = new System.Drawing.Point(168, 98);
+            this.buttonExportFile.Name = "buttonExportFile";
+            this.buttonExportFile.Size = new System.Drawing.Size(75, 23);
+            this.buttonExportFile.TabIndex = 9;
+            this.buttonExportFile.Text = "输出打包";
+            this.buttonExportFile.UseVisualStyleBackColor = true;
             // 
             // buttonFolderHandle
             // 
@@ -373,14 +373,15 @@
             this.buttonChooseFile.UseVisualStyleBackColor = true;
             this.buttonChooseFile.Click += new System.EventHandler(this.buttonChooseFile_Click);
             // 
-            // buttonExportFile
+            // buttonExportFolder
             // 
-            this.buttonExportFile.Location = new System.Drawing.Point(168, 69);
-            this.buttonExportFile.Name = "buttonExportFile";
-            this.buttonExportFile.Size = new System.Drawing.Size(75, 23);
-            this.buttonExportFile.TabIndex = 5;
-            this.buttonExportFile.Text = "输出解包";
-            this.buttonExportFile.UseVisualStyleBackColor = true;
+            this.buttonExportFolder.Location = new System.Drawing.Point(168, 69);
+            this.buttonExportFolder.Name = "buttonExportFolder";
+            this.buttonExportFolder.Size = new System.Drawing.Size(75, 23);
+            this.buttonExportFolder.TabIndex = 5;
+            this.buttonExportFolder.Text = "输出解包";
+            this.buttonExportFolder.UseVisualStyleBackColor = true;
+            this.buttonExportFolder.Click += new System.EventHandler(this.buttonExportFolder_Click);
             // 
             // buttonFileHandle
             // 
@@ -492,11 +493,11 @@
         public System.Windows.Forms.TextBox filePath;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.Button buttonExportFile;
+        private System.Windows.Forms.Button buttonExportFolder;
         private System.Windows.Forms.Button buttonChooseFolder;
         private System.Windows.Forms.Button buttonChooseFile;
         private System.Windows.Forms.Button buttonFolderHandle;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button buttonExportFile;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button buttonTemp;

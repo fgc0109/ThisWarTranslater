@@ -21,7 +21,7 @@ namespace ThisWarTranslater
         {
             DefaultDatas.DefaultHash(this);
             DefaultDatas.DefaultConnectInfo(this);
-            filePath.Text = Application.StartupPath + @"\localizations";
+            filePath.Text = Application.StartupPath + @"\_UncompressFiles\";
         }
 
         private void buttonFileHandle_Click(object sender, EventArgs e)
@@ -86,6 +86,12 @@ namespace ThisWarTranslater
             FolderBrowserDialog openFolder = new FolderBrowserDialog();
             openFolder.ShowDialog();
             filePath.Text = openFolder.SelectedPath;
+        }
+
+        private void buttonExportFolder_Click(object sender, EventArgs e)
+        {
+            string debugStr = HandleFiles.exportFolder(this);
+            textDebug.Text = textDebug.Text + "\r\n[信息]" + debugStr;
         }
     }
 }

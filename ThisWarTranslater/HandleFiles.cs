@@ -15,7 +15,9 @@ namespace ThisWarTranslater
         public static MemoryStream m_datStream = null;
         public static MemoryStream[] m_zipStream = null;
         public static MemoryStream[] m_uzipStream = null;
+
         public static DeflateStream[] m_defStream = null;
+        public static GZipStream[] m_gzipStream = null;
 
         public static byte[] m_idxHeader = new byte[3];
         public static byte[] m_idxCounts = new byte[4];
@@ -60,8 +62,26 @@ namespace ThisWarTranslater
         {
             try
             {
-                byte[] idxData = File.ReadAllBytes(mainForm.filePath.Text + ".idx");
-                m_idxStream = new MemoryStream(idxData);
+                DirectoryInfo TheFolder = new DirectoryInfo(mainForm.filePath.Text);
+
+                m_fileCount = TheFolder.GetFiles().Length;
+
+                FileInfo[] uzipFileInfo = TheFolder.GetFiles();
+
+                m_uzipStream = new MemoryStream[m_fileCount];
+
+                m_lengthHash = new int[m_fileCount];
+                m_lengthAfters = new int[m_fileCount];
+
+                for (int i = 0; i < m_fileCount; i++)
+                {
+                    byte[] fileData = File.ReadAllBytes(mainForm.filePath.Text + uzipFileInfo[i].Name);
+                    m_uzipStream[i] = new MemoryStream(fileData);
+
+                    m_lengthHash[i] = int.Parse(uzipFileInfo[i].Name);
+                    m_lengthAfters[i] = (int)uzipFileInfo[i].Length;
+                }
+
             }
             catch (Exception e)
             {
@@ -175,6 +195,22 @@ namespace ThisWarTranslater
             mainForm.progressBar.Value = 0;
         }
 
+        public static void DataCompress(ThisWarTranslaterMain mainForm)
+        {
+            m_uzipStream = new MemoryStream[m_fileCount];
+            m_gzipStream = new GZipStream[m_fileCount];
+
+            for (int i = 0; i < m_fileCount; i++)
+            {
+                m_gzipStream[i] = new GZipStream(m_uzipStream[i], CompressionMode.Compress, true);
+
+                m_zipStream[i] = new MemoryStream();
+                m_gzipStream[i].CopyTo(m_zipStream[i]);
+
+                m_lengthBefore[i] = (int)m_zipStream[i].Length;
+            }
+        }
+
         /// <summary>
         /// 信息显示和更新
         /// </summary>
@@ -199,6 +235,27 @@ namespace ThisWarTranslater
                 mainForm.infoList.Items.Add(infoListItem);
             }
             mainForm.infoList.EndUpdate();
+        }
+
+        public static string exportFolder(ThisWarTranslaterMain mainForm)
+        {
+            string path = Application.StartupPath + @"\_UncompressFiles\";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            for (int i = 0; i < m_fileCount; i++)
+            {
+                FileStream outputFile = new FileStream(path + m_lengthHash[i].ToString("X8"), FileMode.Create);
+
+                m_uzipStream[i].Seek(0, SeekOrigin.Begin);
+                outputFile.Write(m_uzipStream[i].ToArray(), 0, (int)m_uzipStream[i].Length);
+
+                m_uzipStream[i].Seek(0, SeekOrigin.Begin);
+                outputFile.Close();
+            }
+                return "文件已经保存";
         }
     }
 }
