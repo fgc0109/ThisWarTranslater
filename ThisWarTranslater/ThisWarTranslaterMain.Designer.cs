@@ -42,16 +42,18 @@
             this.textDataPort = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textDataAddress = new System.Windows.Forms.TextBox();
-            this.button8 = new System.Windows.Forms.Button();
+            this.buttonExportDataBase = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonRefreshing = new System.Windows.Forms.Button();
             this.buttonUpdateData = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonOutputsList = new System.Windows.Forms.Button();
+            this.buttonInputsList = new System.Windows.Forms.Button();
             this.hashList = new System.Windows.Forms.ListView();
             this.headerHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.headerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.headerState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.headerIndex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.headerField = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button7 = new System.Windows.Forms.Button();
             this.buttonTemp = new System.Windows.Forms.Button();
@@ -69,8 +71,7 @@
             this.filePath = new System.Windows.Forms.TextBox();
             this.textDebug = new System.Windows.Forms.TextBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.headerIndex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.headerField = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -78,6 +79,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.buttonConnectDatabase);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.textDataTable);
@@ -91,7 +93,7 @@
             this.groupBox1.Controls.Add(this.textDataPort);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.textDataAddress);
-            this.groupBox1.Controls.Add(this.button8);
+            this.groupBox1.Controls.Add(this.buttonExportDataBase);
             this.groupBox1.Location = new System.Drawing.Point(348, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(351, 130);
@@ -101,7 +103,7 @@
             // 
             // buttonConnectDatabase
             // 
-            this.buttonConnectDatabase.Location = new System.Drawing.Point(189, 101);
+            this.buttonConnectDatabase.Location = new System.Drawing.Point(270, 101);
             this.buttonConnectDatabase.Name = "buttonConnectDatabase";
             this.buttonConnectDatabase.Size = new System.Drawing.Size(75, 23);
             this.buttonConnectDatabase.TabIndex = 17;
@@ -206,21 +208,22 @@
             this.textDataAddress.Size = new System.Drawing.Size(122, 21);
             this.textDataAddress.TabIndex = 5;
             // 
-            // button8
+            // buttonExportDataBase
             // 
-            this.button8.Location = new System.Drawing.Point(270, 101);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 4;
-            this.button8.Text = "导出至文件";
-            this.button8.UseVisualStyleBackColor = true;
+            this.buttonExportDataBase.Location = new System.Drawing.Point(90, 101);
+            this.buttonExportDataBase.Name = "buttonExportDataBase";
+            this.buttonExportDataBase.Size = new System.Drawing.Size(174, 23);
+            this.buttonExportDataBase.TabIndex = 4;
+            this.buttonExportDataBase.Text = "导出<lang_user>字段至文件";
+            this.buttonExportDataBase.UseVisualStyleBackColor = true;
+            this.buttonExportDataBase.Click += new System.EventHandler(this.buttonExportDataBase_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.buttonRefreshing);
             this.groupBox2.Controls.Add(this.buttonUpdateData);
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.buttonOutputsList);
+            this.groupBox2.Controls.Add(this.buttonInputsList);
             this.groupBox2.Controls.Add(this.hashList);
             this.groupBox2.Location = new System.Drawing.Point(348, 148);
             this.groupBox2.Name = "groupBox2";
@@ -250,23 +253,25 @@
             this.buttonUpdateData.UseVisualStyleBackColor = true;
             this.buttonUpdateData.Click += new System.EventHandler(this.buttonUpdateData_Click);
             // 
-            // button2
+            // buttonOutputsList
             // 
-            this.button2.Location = new System.Drawing.Point(270, 49);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "导入列表";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonOutputsList.Enabled = false;
+            this.buttonOutputsList.Location = new System.Drawing.Point(270, 49);
+            this.buttonOutputsList.Name = "buttonOutputsList";
+            this.buttonOutputsList.Size = new System.Drawing.Size(75, 23);
+            this.buttonOutputsList.TabIndex = 3;
+            this.buttonOutputsList.Text = "导入列表";
+            this.buttonOutputsList.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // buttonInputsList
             // 
-            this.button1.Location = new System.Drawing.Point(270, 20);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "导出列表";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonInputsList.Enabled = false;
+            this.buttonInputsList.Location = new System.Drawing.Point(270, 20);
+            this.buttonInputsList.Name = "buttonInputsList";
+            this.buttonInputsList.Size = new System.Drawing.Size(75, 23);
+            this.buttonInputsList.TabIndex = 2;
+            this.buttonInputsList.Text = "导出列表";
+            this.buttonInputsList.UseVisualStyleBackColor = true;
             // 
             // hashList
             // 
@@ -300,6 +305,15 @@
             this.headerState.Text = "状态";
             this.headerState.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // headerIndex
+            // 
+            this.headerIndex.Text = "存储序号";
+            this.headerIndex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // headerField
+            // 
+            this.headerField.Text = "数据库字段";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button7);
@@ -321,6 +335,7 @@
             // 
             // button7
             // 
+            this.button7.Enabled = false;
             this.button7.Location = new System.Drawing.Point(249, 69);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(75, 23);
@@ -330,6 +345,7 @@
             // 
             // buttonTemp
             // 
+            this.buttonTemp.Enabled = false;
             this.buttonTemp.Location = new System.Drawing.Point(249, 98);
             this.buttonTemp.Name = "buttonTemp";
             this.buttonTemp.Size = new System.Drawing.Size(75, 23);
@@ -456,14 +472,16 @@
             this.progressBar.Size = new System.Drawing.Size(350, 23);
             this.progressBar.TabIndex = 6;
             // 
-            // headerIndex
+            // checkBox1
             // 
-            this.headerIndex.Text = "存储序号";
-            this.headerIndex.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // headerField
-            // 
-            this.headerField.Text = "数据库字段";
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Enabled = false;
+            this.checkBox1.Location = new System.Drawing.Point(6, 105);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(72, 16);
+            this.checkBox1.TabIndex = 18;
+            this.checkBox1.Text = "云数据库";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // ThisWarTranslaterMain
             // 
@@ -494,10 +512,10 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.ListView hashList;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonInputsList;
         private System.Windows.Forms.ColumnHeader headerName;
         private System.Windows.Forms.ColumnHeader headerHash;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonOutputsList;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button buttonFileHandle;
         public System.Windows.Forms.ListView infoList;
@@ -512,7 +530,7 @@
         private System.Windows.Forms.Button buttonChooseFile;
         private System.Windows.Forms.Button buttonFolderHandle;
         private System.Windows.Forms.Button buttonExportFile;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button buttonExportDataBase;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button buttonTemp;
         private System.Windows.Forms.Button buttonRefreshing;
@@ -534,6 +552,7 @@
         public System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.ColumnHeader headerIndex;
         private System.Windows.Forms.ColumnHeader headerField;
+        public System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

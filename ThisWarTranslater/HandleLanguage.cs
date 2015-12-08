@@ -41,6 +41,8 @@ namespace ThisWarTranslater
         public static List<int> m_databaseID = new List<int>();
         public static List<string> m_databaseNoun = new List<string>();
 
+        public static List<string[]> m_databaseUser = new List<string[]>();
+
         /// <summary>
         /// 准备数据库数据，为类成员变量提供以下数据
         ///     数据表集  提供数据库数据表集合
@@ -52,13 +54,18 @@ namespace ThisWarTranslater
         {
             m_mainDataSet = HandleDatabase.LoadDatabase(string.Format("select * from {0};", mainForm.textDataTable.Text));
             m_databaseColumn = m_mainDataSet.Tables[0].Columns.Count;
-            m_databaseRows= m_mainDataSet.Tables[0].Rows.Count;
+            m_databaseRows = m_mainDataSet.Tables[0].Rows.Count;
 
             for (int i = 0; i < m_mainDataSet.Tables[0].Rows.Count; i++)
             {
                 m_databaseID.Add(int.Parse(m_mainDataSet.Tables[0].Rows[i]["id"].ToString()));
                 m_databaseNoun.Add(m_mainDataSet.Tables[0].Rows[i]["noun"].ToString().Replace("\0", ""));
             }
+
+            string strUpdate = "";
+            strUpdate = string.Format("ALTER TABLE {0} ADD COLUMN {1} text;",
+                mainForm.textDataTable.Text, "lang_user");
+            HandleDatabase.SaveDatabase(strUpdate);
 
             return "查询到的记录数量" + m_mainDataSet.Tables[0].Rows.Count.ToString();
         }
@@ -310,6 +317,65 @@ namespace ThisWarTranslater
             }
 
             mainForm.progressBar.Value = 0;
+        }
+
+
+        public static int dataLanguageDatabaseExport(ThisWarTranslaterMain mainForm)
+        {
+            string path = Application.StartupPath + @"\_UserLanguageFiles\";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            FileStream databaseOutputFile = new FileStream(path + "LANGUAGE", FileMode.Create);
+
+            string strNoun = "";
+            string strUser = "";
+
+            mainForm.progressBar.Minimum = 0;
+            mainForm.progressBar.Maximum = m_mainDataSet.Tables[0].Rows.Count * 2;
+
+            mainForm.progressBar.Value = 0;
+
+            for (int i = 0; i < m_mainDataSet.Tables[0].Rows.Count; i++)
+            {
+                strUser = m_mainDataSet.Tables[0].Rows[i]["lang_user"].ToString();
+                if (strUser != "")
+                {
+                    strNoun = m_mainDataSet.Tables[0].Rows[i]["noun"].ToString();
+                    m_databaseUser.Add(new string[] { strNoun, strUser });
+                }
+
+                mainForm.progressBar.Value = i;
+            }
+
+            databaseOutputFile.Write(new byte[] { 0x00, 0x00, 0x00, 0x00 }, 0, 4);
+            databaseOutputFile.Write(FilesCoding.StringConverter(m_databaseUser.Count, 4), 0, 4);
+
+            for (int i = 0; i < m_databaseUser.Count; i++)
+            {
+                databaseOutputFile.Write(FilesCoding.StringConverter(m_databaseUser[i][0].Length, 2), 0, 2);
+                databaseOutputFile.Write(Encoding.ASCII.GetBytes(m_databaseUser[i][0]), 0, m_databaseUser[i][0].Length);
+                databaseOutputFile.Write(FilesCoding.StringConverter(m_databaseUser[i][1].Length, 2), 0, 2);
+                databaseOutputFile.Write(Encoding.Unicode.GetBytes(m_databaseUser[i][1]), 0, m_databaseUser[i][1].Length);
+
+
+                mainForm.progressBar.Value = m_mainDataSet.Tables[0].Rows.Count + i * (m_mainDataSet.Tables[0].Rows.Count / m_databaseUser.Count);
+            }
+
+            databaseOutputFile.Write(new byte[] { 0x44, 0x45, 0x42, 0x55, 0x47, 0x54, 0x45, 0x58 }, 0, 8);
+            databaseOutputFile.Write(new byte[] { 0x54, 0x5F, 0x46, 0x49, 0x4E, 0x41, 0x4C, 0x01 }, 0, 8);
+            databaseOutputFile.Write(new byte[] { 0x00, 0x26, 0x20 }, 0, 3);
+
+            databaseOutputFile.Seek(0, SeekOrigin.Begin);
+            databaseOutputFile.Write(FilesCoding.StringConverter((int)databaseOutputFile.Length, 4), 0, 4);
+
+            mainForm.progressBar.Value = 0;
+
+            databaseOutputFile.Close();
+
+            return m_databaseUser.Count;
         }
     }
 }

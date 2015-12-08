@@ -36,22 +36,6 @@ public class HandleDatabase
     /// <summary>
     /// 加载数据库数据至内存
     /// </summary>
-    /// <returns>数据源缓存DataSet</returns>
-    static public DataSet LoadDatabase()
-    {
-        string strSelect = "select * from skilldata_npc;";
-
-        DataSet local_dataset = new DataSet();
-        MySqlDataAdapter local_adapter = new MySqlDataAdapter(strSelect, dbConnection);
-
-        local_adapter.Fill(local_dataset);
-
-        return local_dataset;
-    }
-
-    /// <summary>
-    /// 加载数据库数据至内存
-    /// </summary>
     /// <param name="select_string">数据选择字符串</param>
     /// <returns>数据源缓存DataSet</returns>
     static public DataSet LoadDatabase(string select_string)
@@ -74,6 +58,8 @@ public class HandleDatabase
     {
         MySqlCommand m_command = dbConnection.CreateCommand();
         m_command.CommandText = update_string;
+        string errMsg = "";
+
         try
         {
             m_command.ExecuteNonQuery();
@@ -81,6 +67,7 @@ public class HandleDatabase
         }
         catch(Exception e)
         {
+            errMsg = e.ToString();
             return false;
         }
     }

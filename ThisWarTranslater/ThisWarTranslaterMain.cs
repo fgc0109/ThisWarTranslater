@@ -74,7 +74,7 @@ namespace ThisWarTranslater
 
         private void buttonTemp_Click(object sender, EventArgs e)
         {
-            HandleLanguage.dataLanguageTable(this);
+
         }
 
         private void buttonChooseFile_Click(object sender, EventArgs e)
@@ -96,6 +96,12 @@ namespace ThisWarTranslater
         {
             string debugStr = FilesDecoding.exportFolder(this);
             textDebug.Text = textDebug.Text + "\r\n[信息]" + debugStr;
+        }
+
+        private void buttonExportDataBase_Click(object sender, EventArgs e)
+        {
+            string debugStr = HandleLanguage.dataLanguageDatabaseExport(this).ToString();
+            textDebug.Text = textDebug.Text + "\r\n[信息]" + "文件导出成功，包含词条" + debugStr;
         }
     }
 }
