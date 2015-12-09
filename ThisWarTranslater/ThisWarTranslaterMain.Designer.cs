@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThisWarTranslaterMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.buttonConnectDatabase = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.textDataTable = new System.Windows.Forms.TextBox();
@@ -71,7 +73,6 @@
             this.filePath = new System.Windows.Forms.TextBox();
             this.textDebug = new System.Windows.Forms.TextBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -100,6 +101,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "数据库操作";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Enabled = false;
+            this.checkBox1.Location = new System.Drawing.Point(6, 105);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(72, 16);
+            this.checkBox1.TabIndex = 18;
+            this.checkBox1.Text = "云数据库";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // buttonConnectDatabase
             // 
@@ -472,17 +484,6 @@
             this.progressBar.Size = new System.Drawing.Size(350, 23);
             this.progressBar.TabIndex = 6;
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(6, 105);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(72, 16);
-            this.checkBox1.TabIndex = 18;
-            this.checkBox1.Text = "云数据库";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // ThisWarTranslaterMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -494,6 +495,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ThisWarTranslaterMain";
             this.Text = "ThisWarTranslater";
             this.Load += new System.EventHandler(this.ThisWarTranslaterMain_Load);
