@@ -343,7 +343,7 @@ namespace ThisWarTranslater
                 strUser = m_mainDataSet.Tables[0].Rows[i]["lang_user"].ToString();
                 if (strUser != "")
                 {
-                    strNoun = m_mainDataSet.Tables[0].Rows[i]["noun"].ToString();
+                    strNoun = m_mainDataSet.Tables[0].Rows[i]["noun"].ToString().Replace("\0", "");
                     m_databaseUser.Add(new string[] { strNoun, strUser });
                 }
 
@@ -358,15 +358,15 @@ namespace ThisWarTranslater
                 databaseOutputFile.Write(FilesCoding.StringConverter(m_databaseUser[i][0].Length, 2), 0, 2);
                 databaseOutputFile.Write(Encoding.ASCII.GetBytes(m_databaseUser[i][0]), 0, m_databaseUser[i][0].Length);
                 databaseOutputFile.Write(FilesCoding.StringConverter(m_databaseUser[i][1].Length, 2), 0, 2);
-                databaseOutputFile.Write(Encoding.Unicode.GetBytes(m_databaseUser[i][1]), 0, m_databaseUser[i][1].Length);
+                databaseOutputFile.Write(Encoding.Unicode.GetBytes(m_databaseUser[i][1]), 0, m_databaseUser[i][1].Length * 2);
 
 
                 mainForm.progressBar.Value = m_mainDataSet.Tables[0].Rows.Count + i * (m_mainDataSet.Tables[0].Rows.Count / m_databaseUser.Count);
             }
 
-            databaseOutputFile.Write(new byte[] { 0x44, 0x45, 0x42, 0x55, 0x47, 0x54, 0x45, 0x58 }, 0, 8);
-            databaseOutputFile.Write(new byte[] { 0x54, 0x5F, 0x46, 0x49, 0x4E, 0x41, 0x4C, 0x01 }, 0, 8);
-            databaseOutputFile.Write(new byte[] { 0x00, 0x26, 0x20 }, 0, 3);
+            //databaseOutputFile.Write(new byte[] { 0x44, 0x45, 0x42, 0x55, 0x47, 0x54, 0x45, 0x58 }, 0, 8);
+            //databaseOutputFile.Write(new byte[] { 0x54, 0x5F, 0x46, 0x49, 0x4E, 0x41, 0x4C, 0x01 }, 0, 8);
+            //databaseOutputFile.Write(new byte[] { 0x00, 0x26, 0x20 }, 0, 3);
 
             databaseOutputFile.Seek(0, SeekOrigin.Begin);
             databaseOutputFile.Write(FilesCoding.StringConverter((int)databaseOutputFile.Length, 4), 0, 4);
@@ -374,8 +374,11 @@ namespace ThisWarTranslater
             mainForm.progressBar.Value = 0;
 
             databaseOutputFile.Close();
+            int temp = m_databaseUser.Count;
+            m_databaseUser = null;
+            m_databaseUser = new List<string[]>();
 
-            return m_databaseUser.Count;
+            return temp;
         }
     }
 }
