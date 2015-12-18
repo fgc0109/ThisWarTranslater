@@ -148,6 +148,9 @@ namespace ThisWarTranslater
             mainForm.textDataPass.Text = "123456";
             mainForm.textDataBase.Text = "thiswar";
             mainForm.textDataTable.Text = "translatetable";
+            mainForm.textDataRevision.Text = "142";
+            mainForm.textBoxField.Text = "lang_user";
+            mainForm.textBoxFile.Text = "AA9C54E9";
         }
     }
 }

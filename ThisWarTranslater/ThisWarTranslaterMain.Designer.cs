@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThisWarTranslaterMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxJapan = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.buttonConnectDatabase = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -73,6 +74,12 @@
             this.filePath = new System.Windows.Forms.TextBox();
             this.textDebug = new System.Windows.Forms.TextBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.labelRevision = new System.Windows.Forms.Label();
+            this.textDataRevision = new System.Windows.Forms.TextBox();
+            this.labelFile = new System.Windows.Forms.Label();
+            this.textBoxFile = new System.Windows.Forms.TextBox();
+            this.labelField = new System.Windows.Forms.Label();
+            this.textBoxField = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -80,6 +87,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.labelFile);
+            this.groupBox1.Controls.Add(this.textBoxFile);
+            this.groupBox1.Controls.Add(this.labelField);
+            this.groupBox1.Controls.Add(this.textBoxField);
+            this.groupBox1.Controls.Add(this.labelRevision);
+            this.groupBox1.Controls.Add(this.textDataRevision);
+            this.groupBox1.Controls.Add(this.checkBoxJapan);
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.buttonConnectDatabase);
             this.groupBox1.Controls.Add(this.label5);
@@ -97,16 +111,28 @@
             this.groupBox1.Controls.Add(this.buttonExportDataBase);
             this.groupBox1.Location = new System.Drawing.Point(348, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(351, 130);
+            this.groupBox1.Size = new System.Drawing.Size(351, 213);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "数据库操作";
+            // 
+            // checkBoxJapan
+            // 
+            this.checkBoxJapan.AutoSize = true;
+            this.checkBoxJapan.Checked = true;
+            this.checkBoxJapan.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxJapan.Location = new System.Drawing.Point(192, 188);
+            this.checkBoxJapan.Name = "checkBoxJapan";
+            this.checkBoxJapan.Size = new System.Drawing.Size(72, 16);
+            this.checkBoxJapan.TabIndex = 19;
+            this.checkBoxJapan.Text = "日文哈希";
+            this.checkBoxJapan.UseVisualStyleBackColor = true;
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(6, 105);
+            this.checkBox1.Location = new System.Drawing.Point(192, 132);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(72, 16);
             this.checkBox1.TabIndex = 18;
@@ -115,7 +141,7 @@
             // 
             // buttonConnectDatabase
             // 
-            this.buttonConnectDatabase.Location = new System.Drawing.Point(270, 101);
+            this.buttonConnectDatabase.Location = new System.Drawing.Point(270, 128);
             this.buttonConnectDatabase.Name = "buttonConnectDatabase";
             this.buttonConnectDatabase.Size = new System.Drawing.Size(75, 23);
             this.buttonConnectDatabase.TabIndex = 17;
@@ -126,7 +152,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(175, 78);
+            this.label5.Location = new System.Drawing.Point(188, 77);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 12);
             this.label5.TabIndex = 16;
@@ -135,7 +161,7 @@
             // textDataTable
             // 
             this.textDataTable.Enabled = false;
-            this.textDataTable.Location = new System.Drawing.Point(210, 74);
+            this.textDataTable.Location = new System.Drawing.Point(223, 74);
             this.textDataTable.Name = "textDataTable";
             this.textDataTable.Size = new System.Drawing.Size(122, 21);
             this.textDataTable.TabIndex = 15;
@@ -159,7 +185,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(175, 51);
+            this.label3.Location = new System.Drawing.Point(188, 50);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 12;
@@ -167,7 +193,7 @@
             // 
             // textDataPass
             // 
-            this.textDataPass.Location = new System.Drawing.Point(210, 47);
+            this.textDataPass.Location = new System.Drawing.Point(223, 47);
             this.textDataPass.Name = "textDataPass";
             this.textDataPass.Size = new System.Drawing.Size(122, 21);
             this.textDataPass.TabIndex = 11;
@@ -191,7 +217,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(175, 24);
+            this.label2.Location = new System.Drawing.Point(188, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 8;
@@ -199,7 +225,7 @@
             // 
             // textDataPort
             // 
-            this.textDataPort.Location = new System.Drawing.Point(210, 20);
+            this.textDataPort.Location = new System.Drawing.Point(223, 20);
             this.textDataPort.Name = "textDataPort";
             this.textDataPort.Size = new System.Drawing.Size(122, 21);
             this.textDataPort.TabIndex = 7;
@@ -222,11 +248,11 @@
             // 
             // buttonExportDataBase
             // 
-            this.buttonExportDataBase.Location = new System.Drawing.Point(90, 101);
+            this.buttonExportDataBase.Location = new System.Drawing.Point(270, 184);
             this.buttonExportDataBase.Name = "buttonExportDataBase";
-            this.buttonExportDataBase.Size = new System.Drawing.Size(174, 23);
+            this.buttonExportDataBase.Size = new System.Drawing.Size(75, 23);
             this.buttonExportDataBase.TabIndex = 4;
-            this.buttonExportDataBase.Text = "导出<lang_user>字段至文件";
+            this.buttonExportDataBase.Text = "导出";
             this.buttonExportDataBase.UseVisualStyleBackColor = true;
             this.buttonExportDataBase.Click += new System.EventHandler(this.buttonExportDataBase_Click);
             // 
@@ -237,7 +263,7 @@
             this.groupBox2.Controls.Add(this.buttonOutputsList);
             this.groupBox2.Controls.Add(this.buttonInputsList);
             this.groupBox2.Controls.Add(this.hashList);
-            this.groupBox2.Location = new System.Drawing.Point(348, 148);
+            this.groupBox2.Location = new System.Drawing.Point(349, 231);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(351, 136);
             this.groupBox2.TabIndex = 1;
@@ -340,7 +366,7 @@
             this.groupBox3.Controls.Add(this.filePath);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(330, 413);
+            this.groupBox3.Size = new System.Drawing.Size(330, 431);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "文件操作";
@@ -434,7 +460,7 @@
             this.columnHeader4});
             this.infoList.Location = new System.Drawing.Point(6, 127);
             this.infoList.Name = "infoList";
-            this.infoList.Size = new System.Drawing.Size(318, 280);
+            this.infoList.Size = new System.Drawing.Size(318, 298);
             this.infoList.TabIndex = 4;
             this.infoList.UseCompatibleStateImageBehavior = false;
             this.infoList.View = System.Windows.Forms.View.Details;
@@ -470,7 +496,7 @@
             // 
             // textDebug
             // 
-            this.textDebug.Location = new System.Drawing.Point(348, 290);
+            this.textDebug.Location = new System.Drawing.Point(348, 367);
             this.textDebug.Multiline = true;
             this.textDebug.Name = "textDebug";
             this.textDebug.ReadOnly = true;
@@ -479,16 +505,65 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(349, 401);
+            this.progressBar.Location = new System.Drawing.Point(12, 449);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(350, 23);
+            this.progressBar.Size = new System.Drawing.Size(330, 23);
             this.progressBar.TabIndex = 6;
+            // 
+            // labelRevision
+            // 
+            this.labelRevision.AutoSize = true;
+            this.labelRevision.Location = new System.Drawing.Point(12, 106);
+            this.labelRevision.Name = "labelRevision";
+            this.labelRevision.Size = new System.Drawing.Size(29, 12);
+            this.labelRevision.TabIndex = 21;
+            this.labelRevision.Text = "版本";
+            // 
+            // textDataRevision
+            // 
+            this.textDataRevision.Location = new System.Drawing.Point(47, 101);
+            this.textDataRevision.Name = "textDataRevision";
+            this.textDataRevision.Size = new System.Drawing.Size(122, 21);
+            this.textDataRevision.TabIndex = 20;
+            // 
+            // labelFile
+            // 
+            this.labelFile.AutoSize = true;
+            this.labelFile.Location = new System.Drawing.Point(188, 160);
+            this.labelFile.Name = "labelFile";
+            this.labelFile.Size = new System.Drawing.Size(29, 12);
+            this.labelFile.TabIndex = 27;
+            this.labelFile.Text = "文件";
+            // 
+            // textBoxFile
+            // 
+            this.textBoxFile.Enabled = false;
+            this.textBoxFile.Location = new System.Drawing.Point(223, 157);
+            this.textBoxFile.Name = "textBoxFile";
+            this.textBoxFile.Size = new System.Drawing.Size(122, 21);
+            this.textBoxFile.TabIndex = 26;
+            // 
+            // labelField
+            // 
+            this.labelField.AutoSize = true;
+            this.labelField.Location = new System.Drawing.Point(12, 160);
+            this.labelField.Name = "labelField";
+            this.labelField.Size = new System.Drawing.Size(29, 12);
+            this.labelField.TabIndex = 25;
+            this.labelField.Text = "字段";
+            // 
+            // textBoxField
+            // 
+            this.textBoxField.Location = new System.Drawing.Point(47, 157);
+            this.textBoxField.Name = "textBoxField";
+            this.textBoxField.Size = new System.Drawing.Size(122, 21);
+            this.textBoxField.TabIndex = 24;
             // 
             // ThisWarTranslaterMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 440);
+            this.ClientSize = new System.Drawing.Size(711, 484);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.textDebug);
             this.Controls.Add(this.groupBox3);
@@ -555,6 +630,13 @@
         private System.Windows.Forms.ColumnHeader headerIndex;
         private System.Windows.Forms.ColumnHeader headerField;
         public System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.CheckBox checkBoxJapan;
+        private System.Windows.Forms.Label labelRevision;
+        public System.Windows.Forms.TextBox textDataRevision;
+        private System.Windows.Forms.Label labelFile;
+        public System.Windows.Forms.TextBox textBoxFile;
+        private System.Windows.Forms.Label labelField;
+        public System.Windows.Forms.TextBox textBoxField;
     }
 }
 

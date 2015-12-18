@@ -52,7 +52,7 @@ namespace ThisWarTranslater
         /// <returns>查询到的记录数量</returns>
         public static string dataPreparation(ThisWarTranslaterMain mainForm)
         {
-            m_mainDataSet = HandleDatabase.LoadDatabase(string.Format("select * from {0};", mainForm.textDataTable.Text));
+            m_mainDataSet = HandleDatabase.LoadDatabase(string.Format("select * from {0};", mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text));
             m_databaseColumn = m_mainDataSet.Tables[0].Columns.Count;
             m_databaseRows = m_mainDataSet.Tables[0].Rows.Count;
 
@@ -64,7 +64,7 @@ namespace ThisWarTranslater
 
             string strUpdate = "";
             strUpdate = string.Format("ALTER TABLE {0} ADD COLUMN {1} text;",
-                mainForm.textDataTable.Text, "lang_user");
+                mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, "lang_user");
             HandleDatabase.SaveDatabase(strUpdate);
 
             return "查询到的记录数量" + m_mainDataSet.Tables[0].Rows.Count.ToString();
@@ -191,9 +191,9 @@ namespace ThisWarTranslater
                 }
 
                 if (m_databaseID.Contains(m_nounIndex[i]))
-                    strUpdate = string.Format("UPDATE {0} SET noun='{1}' WHERE id='{2}';", mainForm.textDataTable.Text, strNoun, m_nounIndex[i]);
+                    strUpdate = string.Format("UPDATE {0} SET noun='{1}' WHERE id='{2}';", mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, strNoun, m_nounIndex[i]);
                 else
-                    strUpdate = string.Format("INSERT INTO {0} VALUES ({1},'{2}'{3});", mainForm.textDataTable.Text, m_nounIndex[i], strNoun, strTemp);
+                    strUpdate = string.Format("INSERT INTO {0} VALUES ({1},'{2}'{3});", mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, m_nounIndex[i], strNoun, strTemp);
 
                 HandleDatabase.SaveDatabase(strUpdate);
 
@@ -221,7 +221,7 @@ namespace ThisWarTranslater
                 } while (tempSign != 0);
 
                 strNoun = strNoun.Replace("'", "''");
-                string strUpdate = string.Format("UPDATE {0} SET sign='{1}' WHERE id='{2}';", mainForm.textDataTable.Text, strNoun, i);
+                string strUpdate = string.Format("UPDATE {0} SET sign='{1}' WHERE id='{2}';", mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, strNoun, i);
                 HandleDatabase.SaveDatabase(strUpdate);
 
                 mainForm.progressBar.Value = m_countsNoun + i;
@@ -263,7 +263,7 @@ namespace ThisWarTranslater
 
             string strUpdate = "";
             strUpdate = string.Format("ALTER TABLE {0} ADD COLUMN {1} text;",
-                mainForm.textDataTable.Text, m_fileField);
+                mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, m_fileField);
             HandleDatabase.SaveDatabase(strUpdate);
 
             mainForm.progressBar.Minimum = 0;
@@ -310,7 +310,7 @@ namespace ThisWarTranslater
                 strLanguage = strLanguage.Replace("'", "''");
 
                 strUpdate = string.Format("UPDATE {0} SET {1}='{2}' WHERE id='{3}';",
-                    mainForm.textDataTable.Text, m_fileField, strLanguage, indexLanguage);
+                    mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, m_fileField, strLanguage, indexLanguage);
                 HandleDatabase.SaveDatabase(strUpdate);
 
                 mainForm.progressBar.Value = i;
@@ -328,7 +328,7 @@ namespace ThisWarTranslater
                 Directory.CreateDirectory(path);
             }
 
-            FileStream databaseOutputFile = new FileStream(path + "LANGUAGE", FileMode.Create);
+            FileStream databaseOutputFile = new FileStream(path + mainForm.textBoxFile.Text, FileMode.Create);
 
             string strNoun = "";
             string strUser = "";
@@ -340,13 +340,12 @@ namespace ThisWarTranslater
 
             for (int i = 0; i < m_mainDataSet.Tables[0].Rows.Count; i++)
             {
-                strUser = m_mainDataSet.Tables[0].Rows[i]["lang_user"].ToString();
+                strUser = m_mainDataSet.Tables[0].Rows[i][mainForm.textBoxField.Text].ToString();
                 if (strUser != "")
                 {
                     strNoun = m_mainDataSet.Tables[0].Rows[i]["noun"].ToString().Replace("\0", "");
                     m_databaseUser.Add(new string[] { strNoun, strUser });
                 }
-
                 mainForm.progressBar.Value = i;
             }
 
@@ -363,11 +362,6 @@ namespace ThisWarTranslater
 
                 mainForm.progressBar.Value = m_mainDataSet.Tables[0].Rows.Count + i * (m_mainDataSet.Tables[0].Rows.Count / m_databaseUser.Count);
             }
-
-            //databaseOutputFile.Write(new byte[] { 0x44, 0x45, 0x42, 0x55, 0x47, 0x54, 0x45, 0x58 }, 0, 8);
-            //databaseOutputFile.Write(new byte[] { 0x54, 0x5F, 0x46, 0x49, 0x4E, 0x41, 0x4C, 0x01 }, 0, 8);
-            //databaseOutputFile.Write(new byte[] { 0x00, 0x26, 0x20 }, 0, 3);
-
             databaseOutputFile.Seek(0, SeekOrigin.Begin);
             databaseOutputFile.Write(FilesCoding.StringConverter((int)databaseOutputFile.Length, 4), 0, 4);
 
