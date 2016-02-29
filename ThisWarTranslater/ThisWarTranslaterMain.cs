@@ -21,7 +21,7 @@ namespace ThisWarTranslater
         {
             DefaultDatas.DefaultHash(this);
             DefaultDatas.DefaultConnectInfo(this);
-            //filePath.Text = Application.StartupPath + @"\localizations";
+            //filePath.Text = Application.StartupPath + @"\localizations_200_eng";
             filePath.Text = Application.StartupPath + @"\_UncompressFiles\";
         }
 
@@ -65,7 +65,7 @@ namespace ThisWarTranslater
 
         private void buttonConnectDatabase_Click(object sender, EventArgs e)
         {
-            string connectStr = HandleDatabase.OpenDatabase(textDataAddress.Text, textDataPort.Text, textDataName.Text, textDataPass.Text, textDataBase.Text);
+            string connectStr = DataManager.HandleDatabase.OpenDatabase(textDataAddress.Text, textDataPort.Text, textDataName.Text, textDataPass.Text, textDataBase.Text);
             textDebug.Text = textDebug.Text + "\r\n[信息]" + connectStr;
 
             string debugStr = HandleLanguage.dataPreparation(this);
@@ -74,7 +74,8 @@ namespace ThisWarTranslater
 
         private void buttonTemp_Click(object sender, EventArgs e)
         {
-
+            HandleHashData.MakeCRCTable();
+            HandleHashData.HashCoding(this);
         }
 
         private void buttonChooseFile_Click(object sender, EventArgs e)
@@ -103,5 +104,6 @@ namespace ThisWarTranslater
             string debugStr = HandleLanguage.dataLanguageDatabaseExport(this).ToString();
             textDebug.Text = textDebug.Text + "\r\n[信息]" + "文件导出成功，包含词条" + debugStr;
         }
+
     }
 }

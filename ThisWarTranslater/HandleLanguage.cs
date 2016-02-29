@@ -52,7 +52,7 @@ namespace ThisWarTranslater
         /// <returns>查询到的记录数量</returns>
         public static string dataPreparation(ThisWarTranslaterMain mainForm)
         {
-            m_mainDataSet = HandleDatabase.LoadDatabase(string.Format("select * from {0};", mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text));
+            m_mainDataSet = DataManager.HandleDatabase.LoadDatabase(string.Format("select * from {0};", mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text));
             m_databaseColumn = m_mainDataSet.Tables[0].Columns.Count;
             m_databaseRows = m_mainDataSet.Tables[0].Rows.Count;
 
@@ -65,7 +65,7 @@ namespace ThisWarTranslater
             string strUpdate = "";
             strUpdate = string.Format("ALTER TABLE {0} ADD COLUMN {1} text;",
                 mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, "lang_user");
-            HandleDatabase.SaveDatabase(strUpdate);
+            DataManager.HandleDatabase.SaveDatabase(strUpdate);
 
             return "查询到的记录数量" + m_mainDataSet.Tables[0].Rows.Count.ToString();
         }
@@ -195,7 +195,7 @@ namespace ThisWarTranslater
                 else
                     strUpdate = string.Format("INSERT INTO {0} VALUES ({1},'{2}'{3});", mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, m_nounIndex[i], strNoun, strTemp);
 
-                HandleDatabase.SaveDatabase(strUpdate);
+                DataManager.HandleDatabase.SaveDatabase(strUpdate);
 
                 mainForm.progressBar.Value = i;
             }
@@ -222,7 +222,7 @@ namespace ThisWarTranslater
 
                 strNoun = strNoun.Replace("'", "''");
                 string strUpdate = string.Format("UPDATE {0} SET sign='{1}' WHERE id='{2}';", mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, strNoun, i);
-                HandleDatabase.SaveDatabase(strUpdate);
+                DataManager.HandleDatabase.SaveDatabase(strUpdate);
 
                 mainForm.progressBar.Value = m_countsNoun + i;
             }
@@ -264,7 +264,7 @@ namespace ThisWarTranslater
             string strUpdate = "";
             strUpdate = string.Format("ALTER TABLE {0} ADD COLUMN {1} text;",
                 mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, m_fileField);
-            HandleDatabase.SaveDatabase(strUpdate);
+            DataManager.HandleDatabase.SaveDatabase(strUpdate);
 
             mainForm.progressBar.Minimum = 0;
             mainForm.progressBar.Maximum = m_countsLanguage;
@@ -311,7 +311,7 @@ namespace ThisWarTranslater
 
                 strUpdate = string.Format("UPDATE {0} SET {1}='{2}' WHERE id='{3}';",
                     mainForm.textDataTable.Text + "_" + mainForm.textDataRevision.Text, m_fileField, strLanguage, indexLanguage);
-                HandleDatabase.SaveDatabase(strUpdate);
+                DataManager.HandleDatabase.SaveDatabase(strUpdate);
 
                 mainForm.progressBar.Value = i;
             }

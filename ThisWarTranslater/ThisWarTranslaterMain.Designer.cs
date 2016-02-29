@@ -30,6 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThisWarTranslaterMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelFile = new System.Windows.Forms.Label();
+            this.textBoxFile = new System.Windows.Forms.TextBox();
+            this.labelField = new System.Windows.Forms.Label();
+            this.textBoxField = new System.Windows.Forms.TextBox();
+            this.labelRevision = new System.Windows.Forms.Label();
+            this.textDataRevision = new System.Windows.Forms.TextBox();
             this.checkBoxJapan = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.buttonConnectDatabase = new System.Windows.Forms.Button();
@@ -74,12 +80,6 @@
             this.filePath = new System.Windows.Forms.TextBox();
             this.textDebug = new System.Windows.Forms.TextBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.labelRevision = new System.Windows.Forms.Label();
-            this.textDataRevision = new System.Windows.Forms.TextBox();
-            this.labelFile = new System.Windows.Forms.Label();
-            this.textBoxFile = new System.Windows.Forms.TextBox();
-            this.labelField = new System.Windows.Forms.Label();
-            this.textBoxField = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -115,6 +115,55 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "数据库操作";
+            // 
+            // labelFile
+            // 
+            this.labelFile.AutoSize = true;
+            this.labelFile.Location = new System.Drawing.Point(188, 160);
+            this.labelFile.Name = "labelFile";
+            this.labelFile.Size = new System.Drawing.Size(29, 12);
+            this.labelFile.TabIndex = 27;
+            this.labelFile.Text = "文件";
+            // 
+            // textBoxFile
+            // 
+            this.textBoxFile.Enabled = false;
+            this.textBoxFile.Location = new System.Drawing.Point(223, 157);
+            this.textBoxFile.Name = "textBoxFile";
+            this.textBoxFile.Size = new System.Drawing.Size(122, 21);
+            this.textBoxFile.TabIndex = 26;
+            // 
+            // labelField
+            // 
+            this.labelField.AutoSize = true;
+            this.labelField.Location = new System.Drawing.Point(12, 160);
+            this.labelField.Name = "labelField";
+            this.labelField.Size = new System.Drawing.Size(29, 12);
+            this.labelField.TabIndex = 25;
+            this.labelField.Text = "字段";
+            // 
+            // textBoxField
+            // 
+            this.textBoxField.Location = new System.Drawing.Point(47, 157);
+            this.textBoxField.Name = "textBoxField";
+            this.textBoxField.Size = new System.Drawing.Size(122, 21);
+            this.textBoxField.TabIndex = 24;
+            // 
+            // labelRevision
+            // 
+            this.labelRevision.AutoSize = true;
+            this.labelRevision.Location = new System.Drawing.Point(12, 106);
+            this.labelRevision.Name = "labelRevision";
+            this.labelRevision.Size = new System.Drawing.Size(29, 12);
+            this.labelRevision.TabIndex = 21;
+            this.labelRevision.Text = "版本";
+            // 
+            // textDataRevision
+            // 
+            this.textDataRevision.Location = new System.Drawing.Point(47, 101);
+            this.textDataRevision.Name = "textDataRevision";
+            this.textDataRevision.Size = new System.Drawing.Size(122, 21);
+            this.textDataRevision.TabIndex = 20;
             // 
             // checkBoxJapan
             // 
@@ -383,7 +432,6 @@
             // 
             // buttonTemp
             // 
-            this.buttonTemp.Enabled = false;
             this.buttonTemp.Location = new System.Drawing.Point(249, 98);
             this.buttonTemp.Name = "buttonTemp";
             this.buttonTemp.Size = new System.Drawing.Size(75, 23);
@@ -509,55 +557,6 @@
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(330, 23);
             this.progressBar.TabIndex = 6;
-            // 
-            // labelRevision
-            // 
-            this.labelRevision.AutoSize = true;
-            this.labelRevision.Location = new System.Drawing.Point(12, 106);
-            this.labelRevision.Name = "labelRevision";
-            this.labelRevision.Size = new System.Drawing.Size(29, 12);
-            this.labelRevision.TabIndex = 21;
-            this.labelRevision.Text = "版本";
-            // 
-            // textDataRevision
-            // 
-            this.textDataRevision.Location = new System.Drawing.Point(47, 101);
-            this.textDataRevision.Name = "textDataRevision";
-            this.textDataRevision.Size = new System.Drawing.Size(122, 21);
-            this.textDataRevision.TabIndex = 20;
-            // 
-            // labelFile
-            // 
-            this.labelFile.AutoSize = true;
-            this.labelFile.Location = new System.Drawing.Point(188, 160);
-            this.labelFile.Name = "labelFile";
-            this.labelFile.Size = new System.Drawing.Size(29, 12);
-            this.labelFile.TabIndex = 27;
-            this.labelFile.Text = "文件";
-            // 
-            // textBoxFile
-            // 
-            this.textBoxFile.Enabled = false;
-            this.textBoxFile.Location = new System.Drawing.Point(223, 157);
-            this.textBoxFile.Name = "textBoxFile";
-            this.textBoxFile.Size = new System.Drawing.Size(122, 21);
-            this.textBoxFile.TabIndex = 26;
-            // 
-            // labelField
-            // 
-            this.labelField.AutoSize = true;
-            this.labelField.Location = new System.Drawing.Point(12, 160);
-            this.labelField.Name = "labelField";
-            this.labelField.Size = new System.Drawing.Size(29, 12);
-            this.labelField.TabIndex = 25;
-            this.labelField.Text = "字段";
-            // 
-            // textBoxField
-            // 
-            this.textBoxField.Location = new System.Drawing.Point(47, 157);
-            this.textBoxField.Name = "textBoxField";
-            this.textBoxField.Size = new System.Drawing.Size(122, 21);
-            this.textBoxField.TabIndex = 24;
             // 
             // ThisWarTranslaterMain
             // 

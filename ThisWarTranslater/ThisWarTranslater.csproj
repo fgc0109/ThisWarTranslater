@@ -68,10 +68,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataManager\HandleEvents.cs" />
+    <Compile Include="DataManager\HandleExcel.cs" />
     <Compile Include="DefaultDatas.cs" />
     <Compile Include="FilesCoding.cs" />
-    <Compile Include="HandleDatabase.cs" />
+    <Compile Include="DataManager\HandleDatabase.cs" />
     <Compile Include="FilesDecoding.cs" />
+    <Compile Include="HandleHashData.cs" />
     <Compile Include="HandleLanguage.cs" />
     <Compile Include="ThisWarTranslaterMain.cs">
       <SubType>Form</SubType>
