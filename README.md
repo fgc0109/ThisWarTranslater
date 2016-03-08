@@ -1,0 +1,4 @@
+# ThisWarTranslater
+ThisWarofMineTranslater
+
+游戏已经更新了官方简体中文版，所以这个工具已经被我拿来乱改练手了，包括事件啊多语言啊和ADO.net之类的内容。
