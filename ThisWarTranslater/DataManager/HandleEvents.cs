@@ -58,13 +58,13 @@ namespace ThisWarTranslater.DataManager
     /// <summary>
     /// 数据库事件
     /// </summary>
-    internal class HandleDatabaseEvents
+    internal class DatabaseEvents
     {
-        public event EventHandler<DatabaseEventArgs> NewEvent;
+        public event EventHandler<DatabaseEventArgs> EventCallback;
 
         protected virtual void OnNewEvent(DatabaseEventArgs e)
         {
-            EventHandler<DatabaseEventArgs> temp = Volatile.Read(ref NewEvent);
+            EventHandler<DatabaseEventArgs> temp = Volatile.Read(ref EventCallback);
             if (temp != null)
                 temp(this, e);
         }
@@ -79,11 +79,24 @@ namespace ThisWarTranslater.DataManager
     /// <summary>
     /// 回调函数
     /// </summary>
-    internal class HandleEvents
+    internal class Callbacks
     {
-        internal void eventDatabase(object sender, DatabaseEventArgs e)
-        {
+        //设定主界面回调函数
+        Action<string> m_changeInfo = Program.m_mainWindow.changeInfo;
 
+        internal void eventDatabase_Info(object sender, DatabaseEventArgs e)
+        {
+            m_changeInfo(e.Info);
+        }
+
+        internal void eventDatabase_Right(object sender, DatabaseEventArgs e)
+        {
+            m_changeInfo(e.Info);
+        }
+
+        internal void eventDatabase_Error(object sender, DatabaseEventArgs e)
+        {
+            m_changeInfo(e.Info);
         }
     }
 }

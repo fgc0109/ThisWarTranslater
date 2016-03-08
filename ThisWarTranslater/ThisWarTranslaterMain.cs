@@ -65,8 +65,9 @@ namespace ThisWarTranslater
 
         private void buttonConnectDatabase_Click(object sender, EventArgs e)
         {
-            string connectStr = DataManager.HandleDatabase.OpenDatabase(textDataAddress.Text, textDataPort.Text, textDataName.Text, textDataPass.Text, textDataBase.Text);
-            textDebug.Text = textDebug.Text + "\r\n[信息]" + connectStr;
+            //string connectStr = DataManager.HandleDatabase.OpenDatabase(textDataAddress.Text, textDataPort.Text, textDataName.Text, textDataPass.Text, textDataBase.Text);
+            DataManager.Database.OpenDatabase(textDataAddress.Text, textDataPort.Text, textDataName.Text, textDataPass.Text, textDataBase.Text);
+            textDebug.Text = textDebug.Text + "\r\n[信息]";
 
             string debugStr = HandleLanguage.dataPreparation(this);
             textDebug.Text = textDebug.Text + "\r\n[信息]" + debugStr;
@@ -105,5 +106,15 @@ namespace ThisWarTranslater
             textDebug.Text = textDebug.Text + "\r\n[信息]" + "文件导出成功，包含词条" + debugStr;
         }
 
+        public void test()
+        {
+            textDebug.Text = textDebug.Text + "\r\n[信息]" + "文件导出成功，包含词条";
+        }
+        
+
+        internal void changeInfo(string info)
+        {
+            textDebug.Text = textDebug.Text + "\r\n[信息]" + info;
+        }
     }
 }

@@ -6,17 +6,20 @@ using System.Windows.Forms;
 
 namespace ThisWarTranslater
 {
-    static class Program
+    static internal class Program
     {
+        static internal ThisWarTranslaterMain m_mainWindow = null;
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static internal void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ThisWarTranslaterMain());
+            m_mainWindow = new ThisWarTranslaterMain();
+            Application.Run(m_mainWindow);
         }
     }
 }

@@ -6,7 +6,7 @@ using MySql.Data;
 
 namespace ThisWarTranslater.DataManager
 {
-    public class HandleDatabase
+    public class Database
     {
         static MySqlConnection dbConnection;
 
@@ -18,20 +18,35 @@ namespace ThisWarTranslater.DataManager
         /// <param name="user">用户名称</param>
         /// <param name="pass">用户密码</param>
         /// <param name="database">数据库名称</param>
-        static public string OpenDatabase(string host, string port, string user, string pass, string database)
+        static public void OpenDatabase(string host, string port, string user, string pass, string database)
         {
-            string connectionString = string.Format("Server = {0};port={1};Database = {2}; User ID = {3}; Password = {4};", host, port, database, user, pass);
+            string connectionString = string.Format("Server = {0};port={1};Database = {2}; User ID = {3}; Password = {4};",
+                host, port, database, user, pass);
+
+            DatabaseEvents events = new DatabaseEvents();
+            events.EventCallback += new Callbacks().eventDatabase_Info;
+
+            string message = "";
+            bool state = true;
 
             try
             {
                 dbConnection = new MySqlConnection(connectionString);
                 dbConnection.Open();
 
-                return "数据库连接成功!";
+                state = true;
+                message = Properties.Resources.Database_Right;
+                events.GetNewEvent(state, message);
             }
-            catch (Exception error)
+            catch (Exception er)
             {
-                return "数据库" + database + "打开失败!\r\n" + error.Message.ToString();
+                state = false;
+                message = er.Message.ToString();
+                events.GetNewEvent(state, message);
+            }
+            finally
+            {
+                events.EventCallback -= new Callbacks().eventDatabase_Info;
             }
         }
 
@@ -58,27 +73,32 @@ namespace ThisWarTranslater.DataManager
         /// <param name="update_string">数据库命令字符串</param>
         static public void SaveDatabase(string update_string)
         {
-            MySqlCommand m_command = dbConnection.CreateCommand();
-            m_command.CommandText = update_string;
-            string errMsg = "";
+            MySqlCommand command = dbConnection.CreateCommand();
+            command.CommandText = update_string;
 
+            DatabaseEvents events = new DatabaseEvents();
+            events.EventCallback += new Callbacks().eventDatabase_Info;
+
+            string message = "";
             bool state = true;
 
             try
             {
-                m_command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
+
                 state = true;
+                message = Properties.Resources.Database_Right;
+                events.GetNewEvent(state, message);
             }
-            catch (Exception e)
+            catch (Exception er)
             {
-                errMsg = e.ToString();
                 state = false;
+                message = er.Message.ToString();
+                events.GetNewEvent(state, message);
             }
             finally
             {
-                HandleDatabaseEvents m_events = new HandleDatabaseEvents();
-                m_events.NewEvent += new HandleEvents().eventDatabase;
-                m_events.GetNewEvent(state, errMsg);
+                events.EventCallback -= new Callbacks().eventDatabase_Info;
             }
         }
     }

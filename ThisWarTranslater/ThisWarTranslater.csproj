@@ -69,13 +69,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataManager\HandleEvents.cs" />
-    <Compile Include="DataManager\HandleExcel.cs" />
+    <Compile Include="DataManager\Excel.cs" />
     <Compile Include="DefaultDatas.cs" />
     <Compile Include="FilesCoding.cs" />
-    <Compile Include="DataManager\HandleDatabase.cs" />
+    <Compile Include="DataManager\Database.cs" />
     <Compile Include="FilesDecoding.cs" />
     <Compile Include="HandleHashData.cs" />
     <Compile Include="HandleLanguage.cs" />
+    <Compile Include="Properties\Resources.zh-TW.Designer.cs">
+      <DependentUpon>Resources.zh-TW.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.en-US.Designer.cs">
+      <DependentUpon>Resources.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ThisWarTranslaterMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +94,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.zh-TW.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en-US.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ThisWarTranslaterMain.resx">
       <DependentUpon>ThisWarTranslaterMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,6 +115,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
